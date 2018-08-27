@@ -23,7 +23,7 @@ public class TextFileReadWrite {
 	}
 	public void writeFile()
 	{
-		  FileWriter fw = null;
+		FileWriter fw = null;
 		try {
 			fw = new FileWriter(fileName);
 		} catch (IOException e) {
@@ -31,25 +31,25 @@ public class TextFileReadWrite {
 			e.printStackTrace();
 		}
 	        for(int i=1; i<11; i++) {
-	            String data = i+" 번째 줄입니다.\r\n";
+	            String data = i+"#\r\n";
 	            try {
-					fw.write(data);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        }
-	        try {
-				fw.close();
+				fw.write(data);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	        }
+	        try {
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 	public void readFile()
 	{
-		   BufferedReader br = null;
+		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(fileName));
 		} catch (FileNotFoundException e1) {
@@ -57,22 +57,22 @@ public class TextFileReadWrite {
 			e1.printStackTrace();
 		}
 	        while(true) {
-	            String line = null;
-				try {
-					line = br.readLine();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	            if (line==null) break;
-	            System.out.println(line);
-	        }
-	        try {
-				br.close();
+			String line = null;
+			try {
+				line = br.readLine();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	            	if (line==null) break;
+	            	System.out.println(line);
+	        }
+	        try {
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 }
