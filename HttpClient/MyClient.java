@@ -1,7 +1,11 @@
 package dap;
 import org.eclipse.jetty.client.HttpClient;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 
 import org.eclipse.jetty.client.api.ContentResponse;
+import org.eclipse.jetty.client.api.Request;
+import org.eclipse.jetty.client.util.StringContentProvider;
+import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpMethod;
 
 import com.google.gson.JsonElement;
@@ -15,11 +19,15 @@ public class MyClient {
 
 	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
-		HttpClient httpClient = new HttpClient();
+		SslContextFactory.Client sslClient = new SslContextFactory.Client();
+		HttpClient httpClient = new HttpClient(sslClient);
+		httpClient.setFollowRedirects(false);
 		httpClient.start();
 		ContentResponse contentRes = httpClient.newRequest("http://127.0.0.1:8081/mypath").method(HttpMethod.GET).send();
 		System.out.println(contentRes.getContentAsString());
-	    String json =
+		Request request = httpClient.POST("http://127.0.0.1:8081/mypath");;
+		request.header(HttpHeader.CONTENT_TYPE, "application/json");
+		String json =
 	            "{" +
 	                    "    strKey : strValue, " +
 	                    "    numKey: 235.3, " +
@@ -28,6 +36,13 @@ public class MyClient {
 	                    "    numArrKey: [100, 200, 300]," +
 	                    "    nullKey: null" +
 	                    "}";
+		request.content(new StringContentProvider(json,"utf-8"));
+		
+		ContentResponse contentResPost =request.send();
+		System.out.println(contentResPost.getContentAsString());
+		ContentResponse contentRes2 = httpClient.newRequest("http://127.0.0.1:8081/mypath2").method(HttpMethod.GET).send();
+		System.out.println(contentRes2.getContentAsString());
+	    
 		JsonElement jsonElement = JsonParser.parseString(json);
 		printJson(jsonElement);
 	}

@@ -18,6 +18,7 @@ public class MyServer {
 		
 		ServletHandler servletHandler = new ServletHandler();
 		servletHandler.addServletWithMapping(MyServlet.class, "/mypath");
+		servletHandler.addServletWithMapping(MyServlet2.class, "/mypath2");
 		server.setHandler(servletHandler);
 		
 		server.start();
