@@ -14,11 +14,13 @@ public class MyServlet extends HttpServlet{
 	private static final long serialVersionUID =1L;
 	private Gson gson; 
 	private String name;
+	private MyHttpClient myClient;
 	
 	@Override
 	public void init() {
 		this.gson = new Gson();
 		this.name = (String) getServletContext().getAttribute("server.name");
+		this.myClient = new MyHttpClient();
 	}
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res )throws ServletException,IOException{
@@ -33,12 +35,28 @@ public class MyServlet extends HttpServlet{
 			headers.put(key, req.getHeader(key));
 			
 		}
+		//redirect
+//		String redirectUrl="";
+//		myClient.sendRequest(redirectUrl, "GET", headers, null);
 		
 		res.setStatus(200);
 		res.getWriter().write("Server: "+ this.name);
 	}
 	protected void doPost(HttpServletRequest req, HttpServletResponse res )throws ServletException,IOException{
 		res.setStatus(200);
+		String url = req.getScheme()+"://"+req.getRemoteAddr()+":"+req.getLocalPort()+req.getRequestURI();
+		System.out.println(url);
+		HashMap<Object, Object> headers = new HashMap<Object, Object>();
+		Enumeration<String> headerNames =req.getHeaderNames();
+		while(headerNames.hasMoreElements()) {
+			String key = headerNames.nextElement();
+			headers.put(key, req.getHeader(key));
+			
+		}
+		//redirect
+//		String body ="";
+//		String redirectUrl="";
+//		myClient.sendRequest(redirectUrl, "POST", headers, body);
 		StringBuilder buffer = new StringBuilder();
 	    BufferedReader reader = req.getReader();
 		String line;
