@@ -12,11 +12,13 @@ import com.google.gson.Gson;
 
 public class MyServlet extends HttpServlet{
 	private static final long serialVersionUID =1L;
-	private Gson gson;
+	private Gson gson; 
+	private String name;
 	
 	@Override
 	public void init() {
 		this.gson = new Gson();
+		this.name = (String) getServletContext().getAttribute("server.name");
 	}
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse res )throws ServletException,IOException{
@@ -33,7 +35,7 @@ public class MyServlet extends HttpServlet{
 		}
 		
 		res.setStatus(200);
-		res.getWriter().write("Server: Hello!");
+		res.getWriter().write("Server: "+ this.name);
 	}
 	protected void doPost(HttpServletRequest req, HttpServletResponse res )throws ServletException,IOException{
 		res.setStatus(200);
